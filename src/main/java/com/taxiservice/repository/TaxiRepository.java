@@ -11,17 +11,11 @@ import java.util.Optional;
 @Repository
 public interface TaxiRepository extends JpaRepository<Taxi, Long> {
 
-    Optional<Taxi> findByLicensePlate(String licensePlate);
+    Optional<Taxi> findByPlateNumber(String plateNumber);
 
     List<Taxi> findByDriverId(Long driverId);
 
     List<Taxi> findByRouteId(Long routeId);
-
-    List<Taxi> findByStatus(String status);
-
-    List<Taxi> findByVehicleType(String vehicleType);
-
-    List<Taxi> findByFuelType(String fuelType);
 
     @Query("SELECT t FROM Taxi t WHERE t.driverId IS NULL")
     List<Taxi> findUnassignedTaxis();
@@ -29,8 +23,5 @@ public interface TaxiRepository extends JpaRepository<Taxi, Long> {
     @Query("SELECT t FROM Taxi t WHERE t.routeId IS NULL")
     List<Taxi> findTaxisWithoutRoute();
 
-    @Query("SELECT t FROM Taxi t WHERE t.status = 'AVAILABLE'")
-    List<Taxi> findAvailableTaxis();
-
-    boolean existsByLicensePlate(String licensePlate);
+    boolean existsByPlateNumber(String plateNumber);
 }
