@@ -2,8 +2,6 @@ package com.taxiservice.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,31 +13,33 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "taxi")
+@Table(name = "route")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Taxi {
+public class Route {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "taxi_id")
-    private Long taxiId;
-
-    @NotBlank(message = "Plate number is required")
-    @Column(name = "plate_number", nullable = false, unique = true, length = 20)
-    private String plateNumber;
-
-    @Column(length = 100)
-    private String model;
-
-    @Column(name = "driver_id")
-    private Long driverId;
-
     @Column(name = "route_id")
     private Long routeId;
+
+    @NotBlank(message = "Route name is required")
+    @Column(nullable = false, length = 100)
+    private String name;
+
+    @NotBlank(message = "Start point is required")
+    @Column(name = "start_point", nullable = false, length = 100)
+    private String startPoint;
+
+    @NotBlank(message = "End point is required")
+    @Column(name = "end_point", nullable = false, length = 100)
+    private String endPoint;
+
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

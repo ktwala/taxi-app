@@ -2,8 +2,6 @@ package com.taxiservice.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,31 +13,41 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "taxi")
+@Table(name = "membership_application")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Taxi {
+public class MembershipApplication {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "taxi_id")
-    private Long taxiId;
+    @Column(name = "application_id")
+    private Long applicationId;
 
-    @NotBlank(message = "Plate number is required")
-    @Column(name = "plate_number", nullable = false, unique = true, length = 20)
-    private String plateNumber;
+    @NotBlank(message = "Applicant name is required")
+    @Column(name = "applicant_name", nullable = false, length = 100)
+    private String applicantName;
 
-    @Column(length = 100)
-    private String model;
+    @NotBlank(message = "Contact number is required")
+    @Column(name = "contact_number", nullable = false, length = 20)
+    private String contactNumber;
 
-    @Column(name = "driver_id")
-    private Long driverId;
+    @Column(name = "application_status", nullable = false, length = 50)
+    private String applicationStatus = "Pending";
 
     @Column(name = "route_id")
     private Long routeId;
+
+    @Column(name = "secretary_reviewed", nullable = false)
+    private Boolean secretaryReviewed = false;
+
+    @Column(name = "chairperson_reviewed", nullable = false)
+    private Boolean chairpersonReviewed = false;
+
+    @Column(name = "decision_notes", columnDefinition = "TEXT")
+    private String decisionNotes;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

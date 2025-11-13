@@ -1,45 +1,38 @@
 package com.taxiservice.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "taxi")
+@Table(name = "user_roles")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Taxi {
+public class UserRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "taxi_id")
-    private Long taxiId;
+    @Column(name = "role_id")
+    private Long roleId;
 
-    @NotBlank(message = "Plate number is required")
-    @Column(name = "plate_number", nullable = false, unique = true, length = 20)
-    private String plateNumber;
+    @Column(name = "role_name", nullable = false, unique = true, length = 50)
+    private String roleName;
 
-    @Column(length = 100)
-    private String model;
-
-    @Column(name = "driver_id")
-    private Long driverId;
-
-    @Column(name = "route_id")
-    private Long routeId;
+    @Type(JsonBinaryType.class)
+    @Column(columnDefinition = "jsonb", name = "permissions")
+    private String permissions;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

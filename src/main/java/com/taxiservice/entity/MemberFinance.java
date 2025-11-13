@@ -1,9 +1,7 @@
 package com.taxiservice.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,34 +10,36 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "taxi")
+@Table(name = "member_finance")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Taxi {
+public class MemberFinance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "taxi_id")
-    private Long taxiId;
+    @Column(name = "finance_id")
+    private Long financeId;
 
-    @NotBlank(message = "Plate number is required")
-    @Column(name = "plate_number", nullable = false, unique = true, length = 20)
-    private String plateNumber;
+    @NotNull(message = "Association member ID is required")
+    @Column(name = "assoc_member_id", nullable = false)
+    private Long assocMemberId;
 
-    @Column(length = 100)
-    private String model;
+    @Column(name = "joining_fee_paid", nullable = false)
+    private Boolean joiningFeePaid = false;
 
-    @Column(name = "driver_id")
-    private Long driverId;
+    @NotNull(message = "Joining fee amount is required")
+    @Column(name = "joining_fee_amount", nullable = false, precision = 10, scale = 2)
+    private BigDecimal joiningFeeAmount;
 
-    @Column(name = "route_id")
-    private Long routeId;
+    @Column(name = "membership_card_issued", nullable = false)
+    private Boolean membershipCardIssued = false;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
