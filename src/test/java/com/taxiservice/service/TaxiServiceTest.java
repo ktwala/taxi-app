@@ -235,8 +235,8 @@ class TaxiServiceTest {
         // Given
         DriverResponse driverResponse = DriverResponse.builder()
                 .driverId(1L)
-                .firstName("John")
-                .lastName("Doe")
+                .name("John Doe")
+                .licenseNumber("DL123456")
                 .build();
         ApiResponse<DriverResponse> apiResponse = ApiResponse.success("Driver retrieved successfully", driverResponse);
 
@@ -259,7 +259,9 @@ class TaxiServiceTest {
         // Given
         RouteResponse routeResponse = RouteResponse.builder()
                 .routeId(1L)
-                .routeName("Route A")
+                .name("Route A")
+                .startPoint("Point A")
+                .endPoint("Point B")
                 .build();
         ApiResponse<RouteResponse> apiResponse = ApiResponse.success("Route retrieved successfully", routeResponse);
 
