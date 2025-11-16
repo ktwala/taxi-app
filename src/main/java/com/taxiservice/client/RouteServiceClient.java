@@ -1,6 +1,6 @@
 package com.taxiservice.client;
 
-import com.taxiservice.dto.ApiResponse;
+import com.taxiservice.dto.common.ApiResponse;
 import com.taxiservice.dto.RouteResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

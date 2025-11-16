@@ -1,6 +1,6 @@
 package com.taxiservice.controller;
 
-import com.taxiservice.dto.ApiResponse;
+import com.taxiservice.dto.common.ApiResponse;
 import com.taxiservice.dto.AuditLogResponse;
 import com.taxiservice.service.TaxiServiceAuditService;
 import lombok.RequiredArgsConstructor;
