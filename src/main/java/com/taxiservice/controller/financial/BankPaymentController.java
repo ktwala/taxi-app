@@ -30,11 +30,9 @@ public class BankPaymentController {
     }
 
     @PatchMapping("/{paymentId}/verify")
-    public ResponseEntity<ApiResponse<BankPaymentResponse>> verifyPayment(
-            @PathVariable Long paymentId,
-            @RequestParam String verifiedBy) {
+    public ResponseEntity<ApiResponse<BankPaymentResponse>> verifyPayment(@PathVariable Long paymentId) {
         log.info("REST request to verify bank payment ID: {}", paymentId);
-        BankPaymentResponse response = bankPaymentService.verifyPayment(paymentId, verifiedBy);
+        BankPaymentResponse response = bankPaymentService.verifyPayment(paymentId);
         return ResponseEntity.ok(ApiResponse.success("Payment verified successfully", response));
     }
 

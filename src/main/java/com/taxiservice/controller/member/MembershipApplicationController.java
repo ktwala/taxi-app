@@ -52,10 +52,9 @@ public class MembershipApplicationController {
     @PatchMapping("/{applicationId}/status")
     public ResponseEntity<ApiResponse<MembershipApplicationResponse>> updateApplicationStatus(
             @PathVariable Long applicationId,
-            @RequestParam String status,
-            @RequestParam String updatedBy) {
+            @RequestParam String status) {
         log.info("REST request to update application ID {} to status: {}", applicationId, status);
-        MembershipApplicationResponse response = applicationService.updateApplicationStatus(applicationId, status, updatedBy);
+        MembershipApplicationResponse response = applicationService.updateApplicationStatus(applicationId, status);
         return ResponseEntity.ok(ApiResponse.success("Application status updated", response));
     }
 

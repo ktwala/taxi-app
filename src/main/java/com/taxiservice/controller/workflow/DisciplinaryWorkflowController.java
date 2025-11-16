@@ -21,12 +21,10 @@ public class DisciplinaryWorkflowController {
 
     private final DisciplinaryWorkflowService workflowService;
 
-    @PostMapping("/initiate/{fineId}")
-    public ResponseEntity<ApiResponse<DisciplinaryWorkflowResponse>> initiateWorkflow(
-            @PathVariable Long fineId,
-            @RequestParam String initiatedBy) {
-        log.info("REST request to initiate disciplinary workflow for fine ID: {}", fineId);
-        DisciplinaryWorkflowResponse response = workflowService.initiateWorkflow(fineId, initiatedBy);
+    @PostMapping("/initiate")
+    public ResponseEntity<ApiResponse<DisciplinaryWorkflowResponse>> initiateWorkflow(@Valid @RequestBody DisciplinaryWorkflowRequest request) {
+        log.info("REST request to initiate disciplinary workflow for fine ID: {}", request.getLevyFineId());
+        DisciplinaryWorkflowResponse response = workflowService.initiateWorkflow(request);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Workflow initiated successfully", response));
     }

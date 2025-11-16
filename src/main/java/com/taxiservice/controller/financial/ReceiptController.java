@@ -64,7 +64,9 @@ public class ReceiptController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         log.info("REST request to get receipts between {} and {}", startDate, endDate);
-        List<ReceiptResponse> responses = receiptService.getReceiptsByDateRange(startDate, endDate);
+        List<ReceiptResponse> responses = receiptService.getReceiptsByDateRange(
+                startDate.atStartOfDay(),
+                endDate.atTime(23, 59, 59));
         return ResponseEntity.ok(ApiResponse.success("Receipts retrieved successfully", responses));
     }
 

@@ -54,9 +54,9 @@ public class NotificationController {
     @PostMapping("/fine-notice")
     public ResponseEntity<ApiResponse<NotificationResponse>> sendFineNotice(
             @RequestParam Long memberId,
-            @RequestParam Long fineId) {
-        log.info("REST request to send fine notice to member ID: {} for fine ID: {}", memberId, fineId);
-        NotificationResponse response = notificationService.sendFineNotice(memberId, fineId);
+            @RequestParam String fineReason) {
+        log.info("REST request to send fine notice to member ID: {} for reason: {}", memberId, fineReason);
+        NotificationResponse response = notificationService.sendFineNotice(memberId, fineReason);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Fine notice sent", response));
     }

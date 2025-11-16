@@ -31,22 +31,16 @@ public class MemberFinanceController {
     }
 
     @PatchMapping("/{financeId}/joining-fee")
-    public ResponseEntity<ApiResponse<MemberFinanceResponse>> recordJoiningFeePayment(
-            @PathVariable Long financeId,
-            @RequestParam BigDecimal amount,
-            @RequestParam String currentUser) {
+    public ResponseEntity<ApiResponse<MemberFinanceResponse>> recordJoiningFeePayment(@PathVariable Long financeId) {
         log.info("REST request to record joining fee payment for finance ID: {}", financeId);
-        MemberFinanceResponse response = financeService.recordJoiningFeePayment(financeId, amount, currentUser);
+        MemberFinanceResponse response = financeService.recordJoiningFeePayment(financeId);
         return ResponseEntity.ok(ApiResponse.success("Joining fee payment recorded", response));
     }
 
     @PatchMapping("/{financeId}/membership-card")
-    public ResponseEntity<ApiResponse<MemberFinanceResponse>> issueMembershipCard(
-            @PathVariable Long financeId,
-            @RequestParam String cardNumber,
-            @RequestParam String currentUser) {
+    public ResponseEntity<ApiResponse<MemberFinanceResponse>> issueMembershipCard(@PathVariable Long financeId) {
         log.info("REST request to issue membership card for finance ID: {}", financeId);
-        MemberFinanceResponse response = financeService.issueMembershipCard(financeId, cardNumber, currentUser);
+        MemberFinanceResponse response = financeService.issueMembershipCard(financeId);
         return ResponseEntity.ok(ApiResponse.success("Membership card issued successfully", response));
     }
 

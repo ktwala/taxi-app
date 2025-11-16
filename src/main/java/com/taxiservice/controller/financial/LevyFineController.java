@@ -23,9 +23,11 @@ public class LevyFineController {
     private final LevyFineService levyFineService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<LevyFineResponse>> issueFine(@Valid @RequestBody LevyFineRequest request) {
-        log.info("REST request to issue fine for member ID: {}", request.getAssocMemberId());
-        LevyFineResponse response = levyFineService.issueFine(request);
+    public ResponseEntity<ApiResponse<LevyFineResponse>> issueFine(
+            @Valid @RequestBody LevyFineRequest request,
+            @RequestParam String currentUser) {
+        log.info("REST request to issue fine for member ID: {} by user: {}", request.getAssocMemberId(), currentUser);
+        LevyFineResponse response = levyFineService.issueFine(request, currentUser);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Fine issued successfully", response));
     }
@@ -33,11 +35,10 @@ public class LevyFineController {
     @PatchMapping("/{fineId}/process-payment")
     public ResponseEntity<ApiResponse<LevyFineResponse>> processFinePayment(
             @PathVariable Long fineId,
-            @RequestParam BigDecimal amountPaid,
             @RequestParam Long paymentMethodId,
             @RequestParam String currentUser) {
-        log.info("REST request to process payment for fine ID: {}", fineId);
-        LevyFineResponse response = levyFineService.processFinePayment(fineId, amountPaid, paymentMethodId, currentUser);
+        log.info("REST request to process payment for fine ID: {} by user: {}", fineId, currentUser);
+        LevyFineResponse response = levyFineService.processFinePayment(fineId, paymentMethodId, currentUser);
         return ResponseEntity.ok(ApiResponse.success("Fine payment processed", response));
     }
 
@@ -54,9 +55,9 @@ public class LevyFineController {
     @PatchMapping("/{fineId}/attach-receipt")
     public ResponseEntity<ApiResponse<LevyFineResponse>> attachReceipt(
             @PathVariable Long fineId,
-            @RequestParam Long receiptId) {
-        log.info("REST request to attach receipt to fine ID: {}", fineId);
-        LevyFineResponse response = levyFineService.attachReceipt(fineId, receiptId);
+            @RequestParam String receiptNumber) {
+        log.info("REST request to attach receipt {} to fine ID: {}", receiptNumber, fineId);
+        LevyFineResponse response = levyFineService.attachReceipt(fineId, receiptNumber);
         return ResponseEntity.ok(ApiResponse.success("Receipt attached successfully", response));
     }
 

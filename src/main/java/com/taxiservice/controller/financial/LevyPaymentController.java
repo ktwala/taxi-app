@@ -25,9 +25,11 @@ public class LevyPaymentController {
     private final LevyPaymentService levyPaymentService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<LevyPaymentResponse>> recordLevyPayment(@Valid @RequestBody LevyPaymentRequest request) {
-        log.info("REST request to record levy payment for member ID: {}", request.getAssocMemberId());
-        LevyPaymentResponse response = levyPaymentService.recordLevyPayment(request);
+    public ResponseEntity<ApiResponse<LevyPaymentResponse>> recordLevyPayment(
+            @Valid @RequestBody LevyPaymentRequest request,
+            @RequestParam String currentUser) {
+        log.info("REST request to record levy payment for member ID: {} by user: {}", request.getAssocMemberId(), currentUser);
+        LevyPaymentResponse response = levyPaymentService.recordLevyPayment(request, currentUser);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Levy payment recorded successfully", response));
     }
@@ -45,9 +47,9 @@ public class LevyPaymentController {
     @PatchMapping("/{paymentId}/attach-receipt")
     public ResponseEntity<ApiResponse<LevyPaymentResponse>> attachReceipt(
             @PathVariable Long paymentId,
-            @RequestParam Long receiptId) {
-        log.info("REST request to attach receipt to levy payment ID: {}", paymentId);
-        LevyPaymentResponse response = levyPaymentService.attachReceipt(paymentId, receiptId);
+            @RequestParam String receiptNumber) {
+        log.info("REST request to attach receipt {} to levy payment ID: {}", receiptNumber, paymentId);
+        LevyPaymentResponse response = levyPaymentService.attachReceipt(paymentId, receiptNumber);
         return ResponseEntity.ok(ApiResponse.success("Receipt attached successfully", response));
     }
 

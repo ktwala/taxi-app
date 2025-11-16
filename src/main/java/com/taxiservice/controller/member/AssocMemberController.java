@@ -22,9 +22,11 @@ public class AssocMemberController {
     private final AssocMemberService assocMemberService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<AssocMemberResponse>> createMember(@Valid @RequestBody AssocMemberRequest request) {
-        log.info("REST request to create association member: {}", request.getName());
-        AssocMemberResponse response = assocMemberService.createMember(request);
+    public ResponseEntity<ApiResponse<AssocMemberResponse>> createMember(
+            @Valid @RequestBody AssocMemberRequest request,
+            @RequestParam String currentUser) {
+        log.info("REST request to create association member: {} by user: {}", request.getName(), currentUser);
+        AssocMemberResponse response = assocMemberService.createMember(request, currentUser);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Member created successfully", response));
     }
@@ -32,9 +34,10 @@ public class AssocMemberController {
     @PutMapping("/{memberId}")
     public ResponseEntity<ApiResponse<AssocMemberResponse>> updateMember(
             @PathVariable Long memberId,
-            @Valid @RequestBody AssocMemberRequest request) {
-        log.info("REST request to update member with ID: {}", memberId);
-        AssocMemberResponse response = assocMemberService.updateMember(memberId, request);
+            @Valid @RequestBody AssocMemberRequest request,
+            @RequestParam String currentUser) {
+        log.info("REST request to update member with ID: {} by user: {}", memberId, currentUser);
+        AssocMemberResponse response = assocMemberService.updateMember(memberId, request, currentUser);
         return ResponseEntity.ok(ApiResponse.success("Member updated successfully", response));
     }
 
@@ -46,16 +49,21 @@ public class AssocMemberController {
     }
 
     @PatchMapping("/{memberId}/blacklist")
-    public ResponseEntity<ApiResponse<AssocMemberResponse>> blacklistMember(@PathVariable Long memberId) {
-        log.info("REST request to blacklist member with ID: {}", memberId);
-        AssocMemberResponse response = assocMemberService.blacklistMember(memberId);
+    public ResponseEntity<ApiResponse<AssocMemberResponse>> blacklistMember(
+            @PathVariable Long memberId,
+            @RequestParam String reason,
+            @RequestParam String currentUser) {
+        log.info("REST request to blacklist member with ID: {} by user: {}. Reason: {}", memberId, currentUser, reason);
+        AssocMemberResponse response = assocMemberService.blacklistMember(memberId, reason, currentUser);
         return ResponseEntity.ok(ApiResponse.success("Member blacklisted successfully", response));
     }
 
     @PatchMapping("/{memberId}/remove-blacklist")
-    public ResponseEntity<ApiResponse<AssocMemberResponse>> removeBlacklist(@PathVariable Long memberId) {
-        log.info("REST request to remove blacklist for member with ID: {}", memberId);
-        AssocMemberResponse response = assocMemberService.removeBlacklist(memberId);
+    public ResponseEntity<ApiResponse<AssocMemberResponse>> removeBlacklist(
+            @PathVariable Long memberId,
+            @RequestParam String currentUser) {
+        log.info("REST request to remove blacklist for member with ID: {} by user: {}", memberId, currentUser);
+        AssocMemberResponse response = assocMemberService.removeBlacklist(memberId, currentUser);
         return ResponseEntity.ok(ApiResponse.success("Blacklist removed successfully", response));
     }
 
