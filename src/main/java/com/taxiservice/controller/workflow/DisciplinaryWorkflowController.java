@@ -1,6 +1,7 @@
 package com.taxiservice.controller.workflow;
 
 import com.taxiservice.dto.common.ApiResponse;
+import com.taxiservice.dto.workflow.DisciplinaryWorkflowRequest;
 import com.taxiservice.dto.workflow.DisciplinaryWorkflowResponse;
 import com.taxiservice.dto.workflow.WorkflowDecisionRequest;
 import com.taxiservice.service.workflow.DisciplinaryWorkflowService;

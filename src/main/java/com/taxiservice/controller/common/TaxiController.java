@@ -3,7 +3,7 @@ package com.taxiservice.controller.common;
 import com.taxiservice.dto.common.ApiResponse;
 import com.taxiservice.dto.common.TaxiRequest;
 import com.taxiservice.dto.common.TaxiResponse;
-import com.taxiservice.service.TaxiServiceUpdated;
+import com.taxiservice.service.TaxiService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 public class TaxiController {
 
-    private final TaxiServiceUpdated taxiService;
+    private final TaxiService taxiService;
 
     @PostMapping
     public ResponseEntity<ApiResponse<TaxiResponse>> createTaxi(@Valid @RequestBody TaxiRequest request) {
@@ -50,7 +50,7 @@ public class TaxiController {
             @PathVariable Long taxiId,
             @PathVariable Long driverId) {
         log.info("REST request to assign driver ID: {} to taxi ID: {}", driverId, taxiId);
-        TaxiResponse response = taxiService.assignDriver(taxiId, driverId);
+        TaxiResponse response = taxiService.assignDriverToTaxi(taxiId, driverId);
         return ResponseEntity.ok(ApiResponse.success("Driver assigned successfully", response));
     }
 
@@ -59,7 +59,7 @@ public class TaxiController {
             @PathVariable Long taxiId,
             @PathVariable Long routeId) {
         log.info("REST request to assign route ID: {} to taxi ID: {}", routeId, taxiId);
-        TaxiResponse response = taxiService.assignRoute(taxiId, routeId);
+        TaxiResponse response = taxiService.assignRouteToTaxi(taxiId, routeId);
         return ResponseEntity.ok(ApiResponse.success("Route assigned successfully", response));
     }
 
@@ -87,21 +87,21 @@ public class TaxiController {
     @GetMapping("/driver/{driverId}")
     public ResponseEntity<ApiResponse<List<TaxiResponse>>> getTaxisByDriver(@PathVariable Long driverId) {
         log.info("REST request to get taxis for driver ID: {}", driverId);
-        List<TaxiResponse> responses = taxiService.getTaxisByDriver(driverId);
+        List<TaxiResponse> responses = taxiService.getTaxisByDriverId(driverId);
         return ResponseEntity.ok(ApiResponse.success("Taxis retrieved successfully", responses));
     }
 
     @GetMapping("/route/{routeId}")
     public ResponseEntity<ApiResponse<List<TaxiResponse>>> getTaxisByRoute(@PathVariable Long routeId) {
         log.info("REST request to get taxis for route ID: {}", routeId);
-        List<TaxiResponse> responses = taxiService.getTaxisByRoute(routeId);
+        List<TaxiResponse> responses = taxiService.getTaxisByRouteId(routeId);
         return ResponseEntity.ok(ApiResponse.success("Taxis retrieved successfully", responses));
     }
 
     @GetMapping("/unassigned")
     public ResponseEntity<ApiResponse<List<TaxiResponse>>> getUnassignedTaxis() {
         log.info("REST request to get unassigned taxis");
-        List<TaxiResponse> responses = taxiService.getUnassignedTaxis();
+        List<TaxiResponse> responses = taxiService.getAvailableTaxis();
         return ResponseEntity.ok(ApiResponse.success("Unassigned taxis retrieved", responses));
     }
 }
