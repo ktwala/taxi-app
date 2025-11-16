@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
         log.error("Resource not found: {}", ex.getMessage());
         ApiResponse<Object> response = ApiResponse.builder()
                 .success(false)
-                .error(ex.getMessage())
+                .message(ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
         log.error("Duplicate resource: {}", ex.getMessage());
         ApiResponse<Object> response = ApiResponse.builder()
                 .success(false)
-                .error(ex.getMessage())
+                .message(ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
 
         ApiResponse<Map<String, String>> response = ApiResponse.<Map<String, String>>builder()
                 .success(false)
-                .error("Validation failed")
+                .message("Validation failed")
                 .data(errors)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -64,7 +64,7 @@ public class GlobalExceptionHandler {
         log.error("Illegal argument: {}", ex.getMessage());
         ApiResponse<Object> response = ApiResponse.builder()
                 .success(false)
-                .error(ex.getMessage())
+                .message(ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -75,7 +75,7 @@ public class GlobalExceptionHandler {
         log.error("Unexpected error occurred: ", ex);
         ApiResponse<Object> response = ApiResponse.builder()
                 .success(false)
-                .error("An unexpected error occurred: " + ex.getMessage())
+                .message("An unexpected error occurred: " + ex.getMessage())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -94,7 +94,7 @@ public class GlobalExceptionHandler {
 
         ApiResponse<Object> response = ApiResponse.builder()
                 .success(false)
-                .error(errorMessage)
+                .message(errorMessage)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.valueOf(ex.status()));
     }
