@@ -20,5 +20,6 @@ public class MembershipApplicationRequest {
 
     private Long routeId;
 
+    @Builder.Default
     private String applicationStatus = "Pending";
 }

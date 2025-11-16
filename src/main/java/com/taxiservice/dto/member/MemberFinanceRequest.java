@@ -22,7 +22,9 @@ public class MemberFinanceRequest {
     @Positive(message = "Joining fee amount must be positive")
     private BigDecimal joiningFeeAmount;
 
+    @Builder.Default
     private Boolean joiningFeePaid = false;
 
+    @Builder.Default
     private Boolean membershipCardIssued = false;
 }

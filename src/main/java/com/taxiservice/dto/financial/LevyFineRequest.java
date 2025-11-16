@@ -26,6 +26,7 @@ public class LevyFineRequest {
     @NotBlank(message = "Fine reason is required")
     private String fineReason;
 
+    @Builder.Default
     private String fineStatus = "Unpaid";
 
     private Long paymentMethodId;

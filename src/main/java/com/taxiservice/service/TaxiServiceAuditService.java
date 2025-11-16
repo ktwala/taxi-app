@@ -64,17 +64,14 @@ public class TaxiServiceAuditService {
 
     private AuditLogResponse convertToResponse(TaxiServiceAuditLog auditLog) {
         return AuditLogResponse.builder()
-                .id(auditLog.getId())
+                .auditId(auditLog.getId())
                 .tableName(auditLog.getTableName())
                 .recordId(auditLog.getRecordId())
                 .actionType(auditLog.getActionType())
                 .actionBy(auditLog.getActionBy())
-                .actionTimestamp(auditLog.getActionTimestamp())
-                .oldValue(auditLog.getOldValue())
-                .newValue(auditLog.getNewValue())
-                .changes(auditLog.getChanges())
-                .ipAddress(auditLog.getIpAddress())
-                .userAgent(auditLog.getUserAgent())
+                .actionAt(auditLog.getActionTimestamp())
+                .oldData(auditLog.getOldValue())
+                .newData(auditLog.getNewValue())
                 .build();
     }
 }

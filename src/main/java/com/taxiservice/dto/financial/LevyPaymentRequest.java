@@ -29,6 +29,7 @@ public class LevyPaymentRequest {
     @Positive(message = "Amount must be positive")
     private BigDecimal amount;
 
+    @Builder.Default
     private String paymentStatus = "Pending";
 
     private Long paymentMethodId;

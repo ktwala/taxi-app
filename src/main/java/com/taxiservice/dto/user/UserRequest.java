@@ -29,5 +29,6 @@ public class UserRequest {
     @NotNull(message = "Role ID is required")
     private Long roleId;
 
+    @Builder.Default
     private Boolean active = true;
 }

@@ -21,5 +21,6 @@ public class RouteRequest {
     @NotBlank(message = "End point is required")
     private String endPoint;
 
+    @Builder.Default
     private Boolean isActive = true;
 }

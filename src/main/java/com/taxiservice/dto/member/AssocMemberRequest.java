@@ -21,5 +21,6 @@ public class AssocMemberRequest {
     @NotBlank(message = "Squad number is required")
     private String squadNumber;
 
+    @Builder.Default
     private Boolean blacklisted = false;
 }

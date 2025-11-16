@@ -17,5 +17,6 @@ public class WorkflowDecisionRequest {
 
     private String paymentArrangement;
 
+    @Builder.Default
     private Boolean override = false;
 }
