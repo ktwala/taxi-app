@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 
 import java.time.LocalDateTime;
 
@@ -30,8 +30,8 @@ public class UserRole {
     @Column(name = "role_name", nullable = false, unique = true, length = 50)
     private String roleName;
 
-    @Type(JsonBinaryType.class)
-    @Column(columnDefinition = "jsonb", name = "permissions")
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "permissions")
     private String permissions;
 
     @CreatedDate

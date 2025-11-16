@@ -33,8 +33,9 @@ public class PaymentMethod {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "active")
-    private Boolean active;
+    @Builder.Default
+    @Column(name = "active", nullable = false)
+    private Boolean active = true;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

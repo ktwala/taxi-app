@@ -1,7 +1,7 @@
 package com.taxiservice.controller;
 
 import com.taxiservice.dto.common.ApiResponse;
-import com.taxiservice.dto.AuditLogResponse;
+import com.taxiservice.dto.common.AuditLogResponse;
 import com.taxiservice.service.TaxiServiceAuditService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

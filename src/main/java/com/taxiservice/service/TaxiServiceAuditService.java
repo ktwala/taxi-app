@@ -1,6 +1,6 @@
 package com.taxiservice.service;
 
-import com.taxiservice.dto.AuditLogResponse;
+import com.taxiservice.dto.common.AuditLogResponse;
 import com.taxiservice.entity.TaxiServiceAuditLog;
 import com.taxiservice.repository.TaxiServiceAuditLogRepository;
 import lombok.RequiredArgsConstructor;

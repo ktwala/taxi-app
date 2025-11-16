@@ -1,7 +1,7 @@
 package com.taxiservice.client;
 
 import com.taxiservice.dto.common.ApiResponse;
-import com.taxiservice.dto.RouteResponse;
+import com.taxiservice.dto.user.RouteResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

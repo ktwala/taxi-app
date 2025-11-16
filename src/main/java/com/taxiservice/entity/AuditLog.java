@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 
@@ -38,11 +38,11 @@ public class AuditLog {
     @Column(name = "action_at")
     private LocalDateTime actionAt = LocalDateTime.now();
 
-    @Type(JsonBinaryType.class)
-    @Column(name = "old_data", columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "old_data")
     private String oldData;
 
-    @Type(JsonBinaryType.class)
-    @Column(name = "new_data", columnDefinition = "jsonb")
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "new_data")
     private String newData;
 }

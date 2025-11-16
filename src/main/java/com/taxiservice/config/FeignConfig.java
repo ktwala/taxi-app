@@ -19,7 +19,7 @@ public class FeignConfig {
     }
 
     public static class CustomErrorDecoder implements ErrorDecoder {
-        private final ErrorDecoder defaultDecoder = new Default();
+        private final ErrorDecoder defaultDecoder = new ErrorDecoder.Default();
 
         @Override
         public Exception decode(String methodKey, feign.Response response) {
