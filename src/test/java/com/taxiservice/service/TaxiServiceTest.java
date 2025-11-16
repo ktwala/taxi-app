@@ -47,29 +47,19 @@ class TaxiServiceTest {
     void setUp() {
         taxi = Taxi.builder()
                 .taxiId(1L)
-                .licensePlate("TX-001-ABC")
+                .plateNumber("TX-001-ABC")
                 .model("Camry")
-                .manufacturer("Toyota")
-                .year(2022)
-                .capacity(4)
-                .color("White")
-                .status("AVAILABLE")
-                .fuelType("HYBRID")
-                .vehicleType("SEDAN")
+                .driverId(null)
+                .routeId(null)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
 
         taxiRequest = TaxiRequest.builder()
-                .licensePlate("TX-001-ABC")
+                .plateNumber("TX-001-ABC")
                 .model("Camry")
-                .manufacturer("Toyota")
-                .year(2022)
-                .capacity(4)
-                .color("White")
-                .status("AVAILABLE")
-                .fuelType("HYBRID")
-                .vehicleType("SEDAN")
+                .driverId(null)
+                .routeId(null)
                 .build();
     }
 
@@ -85,7 +75,7 @@ class TaxiServiceTest {
         // Then
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("TX-001-ABC", result.get(0).getLicensePlate());
+        assertEquals("TX-001-ABC", result.get(0).getPlateNumber());
         verify(taxiRepository, times(1)).findAll();
     }
 
@@ -100,7 +90,7 @@ class TaxiServiceTest {
         // Then
         assertNotNull(result);
         assertEquals(1L, result.getTaxiId());
-        assertEquals("TX-001-ABC", result.getLicensePlate());
+        assertEquals("TX-001-ABC", result.getPlateNumber());
         verify(taxiRepository, times(1)).findById(1L);
     }
 
@@ -117,7 +107,7 @@ class TaxiServiceTest {
     @Test
     void createTaxi_WhenValidRequest_ShouldCreateTaxi() {
         // Given
-        when(taxiRepository.existsByLicensePlate(anyString())).thenReturn(false);
+        when(taxiRepository.existsByPlateNumber(anyString())).thenReturn(false);
         when(taxiRepository.save(any(Taxi.class))).thenReturn(taxi);
 
         // When
@@ -125,19 +115,19 @@ class TaxiServiceTest {
 
         // Then
         assertNotNull(result);
-        assertEquals("TX-001-ABC", result.getLicensePlate());
-        verify(taxiRepository, times(1)).existsByLicensePlate(anyString());
+        assertEquals("TX-001-ABC", result.getPlateNumber());
+        verify(taxiRepository, times(1)).existsByPlateNumber(anyString());
         verify(taxiRepository, times(1)).save(any(Taxi.class));
     }
 
     @Test
-    void createTaxi_WhenDuplicateLicensePlate_ShouldThrowException() {
+    void createTaxi_WhenDuplicatePlateNumber_ShouldThrowException() {
         // Given
-        when(taxiRepository.existsByLicensePlate(anyString())).thenReturn(true);
+        when(taxiRepository.existsByPlateNumber(anyString())).thenReturn(true);
 
         // When & Then
         assertThrows(DuplicateResourceException.class, () -> taxiService.createTaxi(taxiRequest));
-        verify(taxiRepository, times(1)).existsByLicensePlate(anyString());
+        verify(taxiRepository, times(1)).existsByPlateNumber(anyString());
         verify(taxiRepository, never()).save(any(Taxi.class));
     }
 
@@ -145,7 +135,7 @@ class TaxiServiceTest {
     void updateTaxi_WhenExists_ShouldUpdateTaxi() {
         // Given
         when(taxiRepository.findById(1L)).thenReturn(Optional.of(taxi));
-        when(taxiRepository.existsByLicensePlate(anyString())).thenReturn(false);
+        when(taxiRepository.existsByPlateNumber(anyString())).thenReturn(false);
         when(taxiRepository.save(any(Taxi.class))).thenReturn(taxi);
 
         // When
@@ -228,7 +218,7 @@ class TaxiServiceTest {
     void getAvailableTaxis_ShouldReturnAvailableTaxis() {
         // Given
         List<Taxi> taxis = Arrays.asList(taxi);
-        when(taxiRepository.findAvailableTaxis()).thenReturn(taxis);
+        when(taxiRepository.findUnassignedTaxis()).thenReturn(taxis);
 
         // When
         List<TaxiResponse> result = taxiService.getAvailableTaxis();
@@ -236,8 +226,8 @@ class TaxiServiceTest {
         // Then
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals("AVAILABLE", result.get(0).getStatus());
-        verify(taxiRepository, times(1)).findAvailableTaxis();
+        assertNull(result.get(0).getDriverId());
+        verify(taxiRepository, times(1)).findUnassignedTaxis();
     }
 
     @Test
@@ -248,7 +238,7 @@ class TaxiServiceTest {
                 .firstName("John")
                 .lastName("Doe")
                 .build();
-        ApiResponse<DriverResponse> apiResponse = ApiResponse.success(driverResponse);
+        ApiResponse<DriverResponse> apiResponse = ApiResponse.success("Driver retrieved successfully", driverResponse);
 
         when(taxiRepository.findById(1L)).thenReturn(Optional.of(taxi));
         when(driverServiceClient.getDriverById(1L)).thenReturn(apiResponse);
@@ -271,7 +261,7 @@ class TaxiServiceTest {
                 .routeId(1L)
                 .routeName("Route A")
                 .build();
-        ApiResponse<RouteResponse> apiResponse = ApiResponse.success(routeResponse);
+        ApiResponse<RouteResponse> apiResponse = ApiResponse.success("Route retrieved successfully", routeResponse);
 
         when(taxiRepository.findById(1L)).thenReturn(Optional.of(taxi));
         when(routeServiceClient.getRouteById(1L)).thenReturn(apiResponse);
