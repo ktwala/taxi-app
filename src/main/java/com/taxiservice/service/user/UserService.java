@@ -24,8 +24,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
-    // Note: In production, inject PasswordEncoder from Spring Security
-    // private final PasswordEncoder passwordEncoder;
+    private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     public UserResponse createUser(UserRequest request) {
         log.info("Creating user: {}", request.getUsername());
@@ -44,8 +43,7 @@ public class UserService {
 
         User user = User.builder()
                 .username(request.getUsername())
-                // In production: .passwordHash(passwordEncoder.encode(request.getPassword()))
-                .passwordHash(request.getPassword()) // Temporary - should be hashed
+                .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .fullName(request.getFullName())
                 .contactEmail(request.getContactEmail())
                 .roleId(request.getRoleId())
@@ -81,8 +79,7 @@ public class UserService {
 
         user.setUsername(request.getUsername());
         if (request.getPassword() != null && !request.getPassword().isEmpty()) {
-            // In production: user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
-            user.setPasswordHash(request.getPassword());
+            user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         }
         user.setFullName(request.getFullName());
         user.setContactEmail(request.getContactEmail());
