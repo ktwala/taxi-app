@@ -3,12 +3,14 @@ package com.taxiservice.controller.member;
 import com.taxiservice.dto.common.ApiResponse;
 import com.taxiservice.dto.member.AssocMemberRequest;
 import com.taxiservice.dto.member.AssocMemberResponse;
+import com.taxiservice.security.CustomUserDetails;
 import com.taxiservice.service.member.AssocMemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +26,9 @@ public class AssocMemberController {
     @PostMapping
     public ResponseEntity<ApiResponse<AssocMemberResponse>> createMember(
             @Valid @RequestBody AssocMemberRequest request,
-            @RequestParam String currentUser) {
+            Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String currentUser = userDetails.getUsername();
         log.info("REST request to create association member: {} by user: {}", request.getName(), currentUser);
         AssocMemberResponse response = assocMemberService.createMember(request, currentUser);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -35,7 +39,9 @@ public class AssocMemberController {
     public ResponseEntity<ApiResponse<AssocMemberResponse>> updateMember(
             @PathVariable Long memberId,
             @Valid @RequestBody AssocMemberRequest request,
-            @RequestParam String currentUser) {
+            Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String currentUser = userDetails.getUsername();
         log.info("REST request to update member with ID: {} by user: {}", memberId, currentUser);
         AssocMemberResponse response = assocMemberService.updateMember(memberId, request, currentUser);
         return ResponseEntity.ok(ApiResponse.success("Member updated successfully", response));
@@ -52,7 +58,9 @@ public class AssocMemberController {
     public ResponseEntity<ApiResponse<AssocMemberResponse>> blacklistMember(
             @PathVariable Long memberId,
             @RequestParam String reason,
-            @RequestParam String currentUser) {
+            Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String currentUser = userDetails.getUsername();
         log.info("REST request to blacklist member with ID: {} by user: {}. Reason: {}", memberId, currentUser, reason);
         AssocMemberResponse response = assocMemberService.blacklistMember(memberId, reason, currentUser);
         return ResponseEntity.ok(ApiResponse.success("Member blacklisted successfully", response));
@@ -61,7 +69,9 @@ public class AssocMemberController {
     @PatchMapping("/{memberId}/remove-blacklist")
     public ResponseEntity<ApiResponse<AssocMemberResponse>> removeBlacklist(
             @PathVariable Long memberId,
-            @RequestParam String currentUser) {
+            Authentication authentication) {
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String currentUser = userDetails.getUsername();
         log.info("REST request to remove blacklist for member with ID: {} by user: {}", memberId, currentUser);
         AssocMemberResponse response = assocMemberService.removeBlacklist(memberId, currentUser);
         return ResponseEntity.ok(ApiResponse.success("Blacklist removed successfully", response));

@@ -54,11 +54,31 @@ public class TaxiController {
         return ResponseEntity.ok(ApiResponse.success("Driver assigned successfully", response));
     }
 
+    // Alternative endpoint for driver assignment (supports PUT and different path format)
+    @PutMapping("/{taxiId}/driver/{driverId}")
+    public ResponseEntity<ApiResponse<TaxiResponse>> assignDriverAlt(
+            @PathVariable Long taxiId,
+            @PathVariable Long driverId) {
+        log.info("REST request to assign driver ID: {} to taxi ID: {} (alt endpoint)", driverId, taxiId);
+        TaxiResponse response = taxiService.assignDriverToTaxi(taxiId, driverId);
+        return ResponseEntity.ok(ApiResponse.success("Driver assigned successfully", response));
+    }
+
     @PatchMapping("/{taxiId}/assign-route/{routeId}")
     public ResponseEntity<ApiResponse<TaxiResponse>> assignRoute(
             @PathVariable Long taxiId,
             @PathVariable Long routeId) {
         log.info("REST request to assign route ID: {} to taxi ID: {}", routeId, taxiId);
+        TaxiResponse response = taxiService.assignRouteToTaxi(taxiId, routeId);
+        return ResponseEntity.ok(ApiResponse.success("Route assigned successfully", response));
+    }
+
+    // Alternative endpoint for route assignment (supports PUT and different path format)
+    @PutMapping("/{taxiId}/route/{routeId}")
+    public ResponseEntity<ApiResponse<TaxiResponse>> assignRouteAlt(
+            @PathVariable Long taxiId,
+            @PathVariable Long routeId) {
+        log.info("REST request to assign route ID: {} to taxi ID: {} (alt endpoint)", routeId, taxiId);
         TaxiResponse response = taxiService.assignRouteToTaxi(taxiId, routeId);
         return ResponseEntity.ok(ApiResponse.success("Route assigned successfully", response));
     }

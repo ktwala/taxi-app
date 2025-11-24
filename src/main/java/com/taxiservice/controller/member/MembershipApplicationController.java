@@ -40,11 +40,31 @@ public class MembershipApplicationController {
         return ResponseEntity.ok(ApiResponse.success("Secretary review completed", response));
     }
 
+    // Alternative endpoint supporting PUT method
+    @PutMapping("/{applicationId}/secretary-review")
+    public ResponseEntity<ApiResponse<MembershipApplicationResponse>> secretaryReviewPut(
+            @PathVariable Long applicationId,
+            @Valid @RequestBody ApplicationReviewRequest request) {
+        log.info("REST request for secretary review of application ID: {} (PUT)", applicationId);
+        MembershipApplicationResponse response = applicationService.secretaryReview(applicationId, request);
+        return ResponseEntity.ok(ApiResponse.success("Secretary review completed", response));
+    }
+
     @PatchMapping("/{applicationId}/chairperson-review")
     public ResponseEntity<ApiResponse<MembershipApplicationResponse>> chairpersonReview(
             @PathVariable Long applicationId,
             @Valid @RequestBody ApplicationReviewRequest request) {
         log.info("REST request for chairperson review of application ID: {}", applicationId);
+        MembershipApplicationResponse response = applicationService.chairpersonReview(applicationId, request);
+        return ResponseEntity.ok(ApiResponse.success("Chairperson review completed", response));
+    }
+
+    // Alternative endpoint supporting PUT method for final approval
+    @PutMapping("/{applicationId}/chairperson-review")
+    public ResponseEntity<ApiResponse<MembershipApplicationResponse>> chairpersonReviewPut(
+            @PathVariable Long applicationId,
+            @Valid @RequestBody ApplicationReviewRequest request) {
+        log.info("REST request for chairperson review of application ID: {} (PUT)", applicationId);
         MembershipApplicationResponse response = applicationService.chairpersonReview(applicationId, request);
         return ResponseEntity.ok(ApiResponse.success("Chairperson review completed", response));
     }
