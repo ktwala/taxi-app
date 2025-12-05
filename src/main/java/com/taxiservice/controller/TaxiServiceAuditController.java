@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping("/api/taxis/audit")
 @RequiredArgsConstructor
 @Slf4j
+@PreAuthorize("hasAnyRole('ADMIN', 'CHAIRPERSON')")
 public class TaxiServiceAuditController {
 
     private final TaxiServiceAuditService auditService;

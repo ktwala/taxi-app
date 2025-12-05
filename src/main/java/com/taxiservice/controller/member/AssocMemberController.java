@@ -24,6 +24,7 @@ public class AssocMemberController {
     private final AssocMemberService assocMemberService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'SECRETARY')")
     public ResponseEntity<ApiResponse<AssocMemberResponse>> createMember(
             @Valid @RequestBody AssocMemberRequest request,
             Authentication authentication) {
@@ -36,6 +37,7 @@ public class AssocMemberController {
     }
 
     @PutMapping("/{memberId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SECRETARY')")
     public ResponseEntity<ApiResponse<AssocMemberResponse>> updateMember(
             @PathVariable Long memberId,
             @Valid @RequestBody AssocMemberRequest request,
@@ -48,6 +50,7 @@ public class AssocMemberController {
     }
 
     @DeleteMapping("/{memberId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SECRETARY')")
     public ResponseEntity<ApiResponse<Void>> deleteMember(@PathVariable Long memberId) {
         log.info("REST request to delete member with ID: {}", memberId);
         assocMemberService.deleteMember(memberId);
@@ -55,6 +58,7 @@ public class AssocMemberController {
     }
 
     @PatchMapping("/{memberId}/blacklist")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SECRETARY', 'CHAIRPERSON')")
     public ResponseEntity<ApiResponse<AssocMemberResponse>> blacklistMember(
             @PathVariable Long memberId,
             @RequestParam String reason,
@@ -67,6 +71,7 @@ public class AssocMemberController {
     }
 
     @PatchMapping("/{memberId}/remove-blacklist")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SECRETARY', 'CHAIRPERSON')")
     public ResponseEntity<ApiResponse<AssocMemberResponse>> removeBlacklist(
             @PathVariable Long memberId,
             Authentication authentication) {
