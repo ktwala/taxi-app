@@ -1,5 +1,6 @@
 package com.taxiservice.entity;
 
+import com.taxiservice.audit.Auditable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user_roles")
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners({AuditingEntityListener.class, com.taxiservice.audit.AuditEntityListener.class})
+@Auditable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

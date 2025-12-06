@@ -1,5 +1,6 @@
 package com.taxiservice.entity;
 
+import com.taxiservice.audit.Auditable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +18,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "levy_fines")
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners({AuditingEntityListener.class, com.taxiservice.audit.AuditEntityListener.class})
+@Auditable
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
